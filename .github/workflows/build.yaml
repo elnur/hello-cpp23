@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: windows-2025-vs2026
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v6
+
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Build
+        run: msbuild Hello.slnx /p:Configuration=Release /p:Platform=ARM64
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v6
+        with:
+          name: hello-arm64
+          path: ARM64\Release\Hello.exe
